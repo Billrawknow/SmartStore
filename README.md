@@ -328,7 +328,7 @@ Create a `.env` file or update `application.yml`:
 ```yaml
 # Database
 DB_USERNAME=postgres
-DB_PASSWORD=bill1234
+DB_PASSWORD=xxxxx
 
 # JWT
 JWT_SECRET=your-super-secret-key-change-in-production
