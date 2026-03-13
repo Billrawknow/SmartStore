@@ -71,7 +71,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/smartstore_db
     username: postgres
-    password: bill1234  # Change if you set a different password
+    password: XXXXXXX  # Your Password
 ```
 
 ### 4. Install Dependencies
