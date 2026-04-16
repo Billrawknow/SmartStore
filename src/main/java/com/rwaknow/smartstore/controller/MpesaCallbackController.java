@@ -1,6 +1,6 @@
 package com.rwaknow.smartstore.controller;
 
-import com.rwaknow.smartstore.service.MpesaService;
+import com.rwaknow.smartstore.services.MpesaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

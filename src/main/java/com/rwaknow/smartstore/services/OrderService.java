@@ -1,4 +1,4 @@
-package com.rwaknow.smartstore.service;
+package com.rwaknow.smartstore.services;
 
 import com.rwaknow.smartstore.dto.CreateOrderInput;
 import com.rwaknow.smartstore.dto.OrderItemInput;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

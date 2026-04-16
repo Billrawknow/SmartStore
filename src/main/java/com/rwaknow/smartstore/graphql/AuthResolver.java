@@ -4,7 +4,7 @@ import com.rwaknow.smartstore.dto.AuthPayload;
 import com.rwaknow.smartstore.dto.LoginRequest;
 import com.rwaknow.smartstore.dto.RegisterRequest;
 import com.rwaknow.smartstore.model.User;
-import com.rwaknow.smartstore.service.AuthService;
+import com.rwaknow.smartstore.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;

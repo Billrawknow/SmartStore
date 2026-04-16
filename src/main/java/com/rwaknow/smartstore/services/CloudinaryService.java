@@ -1,4 +1,4 @@
-package com.rwaknow.smartstore.service;
+package com.rwaknow.smartstore.services;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;

@@ -1,4 +1,4 @@
-package com.rwaknow.smartstore.service;
+package com.rwaknow.smartstore.services;
 
 import com.rwaknow.smartstore.dto.CreateCategoryInput;
 import com.rwaknow.smartstore.model.Category;

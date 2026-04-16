@@ -1,4 +1,4 @@
-package com.rwaknow.smartstore.service;
+package com.rwaknow.smartstore.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

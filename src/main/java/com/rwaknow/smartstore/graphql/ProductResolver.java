@@ -4,7 +4,7 @@ import com.rwaknow.smartstore.dto.CreateProductInput;
 import com.rwaknow.smartstore.dto.ProductFilterInput;
 import com.rwaknow.smartstore.dto.UpdateProductInput;
 import com.rwaknow.smartstore.model.Product;
-import com.rwaknow.smartstore.service.ProductService;
+import com.rwaknow.smartstore.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.graphql.data.method.annotation.Argument;

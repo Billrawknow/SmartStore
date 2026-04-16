@@ -2,7 +2,7 @@ package com.rwaknow.smartstore.graphql;
 
 import com.rwaknow.smartstore.dto.CreateCategoryInput;
 import com.rwaknow.smartstore.model.Category;
-import com.rwaknow.smartstore.service.CategoryService;
+import com.rwaknow.smartstore.services.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
