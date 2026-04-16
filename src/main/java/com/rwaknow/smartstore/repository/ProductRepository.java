@@ -32,4 +32,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     // Find top-rated products
     List<Product> findTop10ByOrderByRatingDesc();
+    // ── NEW: Admin analytics ─
+    long countByStockLessThan(int stock);
+    List<Product> findByStockLessThan(int stock);
+    List<Product> findTop5ByOrderByCreatedAtDesc();
 }

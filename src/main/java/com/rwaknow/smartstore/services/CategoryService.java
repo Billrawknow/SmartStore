@@ -36,7 +36,15 @@ public class CategoryService {
         return categoryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Category not found with id: " + id));
     }
-
+    /**
+     * Wrapper method for GraphQL - creates category from individual fields
+     */
+    public Category createCategory(String name, String description) {
+        CreateCategoryInput input = new CreateCategoryInput();
+        input.setName(name);
+        input.setDescription(description);
+        return createCategory(input);
+    }
     @Transactional
     public void deleteCategory(Long id) {
         Category category = getCategoryById(id);

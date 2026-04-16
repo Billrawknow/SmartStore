@@ -140,4 +140,34 @@ public class ProductService {
 
         return PageRequest.of(filter.getPage(), filter.getSize(), sort);
     }
+
+    /**
+     * Wrapper method for GraphQL - creates product from individual fields
+     */
+    public Product createProduct(String name, String description, Double price,
+                                 Integer stock, Long categoryId, Boolean available) {
+        CreateProductInput input = new CreateProductInput();
+        input.setName(name);
+        input.setDescription(description);
+        input.setPrice(price);
+        input.setStock(stock);
+        input.setCategoryId(categoryId);
+        input.setAvailable(available);
+        return createProduct(input);
+    }
+
+    /**
+     * Wrapper method for GraphQL - updates product from individual fields
+     */
+    public Product updateProduct(Long id, String name, String description, Double price,
+                                 Integer stock, Long categoryId, Boolean available) {
+        UpdateProductInput input = new UpdateProductInput();
+        input.setName(name);
+        input.setDescription(description);
+        input.setPrice(price);
+        input.setStock(stock);
+        input.setCategoryId(categoryId);
+        input.setAvailable(available);
+        return updateProduct(id, input);
+    }
 }

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -84,6 +85,26 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
+    public Order getOrderById(Long id, User user) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Order not found with id: " + id));
+
+        // Admin can see all orders, customers only their own
+        if (user.getRole() != UserRole.ADMIN && !order.getUser().getId().equals(user.getId())) {
+            throw new RuntimeException("Unauthorized to view this order");
+        }
+
+        return order;
+    }
+
+    public Page<Order> getMyOrders(User user, Pageable pageable) {
+        return orderRepository.findByUserId(user.getId(), pageable);
+    }
+
+    public Page<Order> getAllOrders(Pageable pageable) {
+        return orderRepository.findAll(pageable);
+    }
+
     @Transactional
     public Order updatePaymentStatus(Long orderId, PaymentStatus paymentStatus, String mpesaReceiptNumber) {
         Order order = getOrderById(orderId);
@@ -96,5 +117,27 @@ public class OrderService {
         }
 
         return orderRepository.save(order);
+    }
+
+    /**
+     * Wrapper method for GraphQL - creates order from individual fields
+     */
+    public Order createOrder(List<OrderItemInput> items, String shippingAddress,
+                             String phoneNumber, User user) {
+        CreateOrderInput input = new CreateOrderInput();
+        input.setItems(items);
+        input.setShippingAddress(shippingAddress);
+        input.setPhoneNumber(phoneNumber);
+        return createOrder(input, user);
+    }
+
+    /**
+     * Wrapper method for GraphQL - updates order status from individual fields
+     */
+    public Order updateOrderStatus(Long orderId, OrderStatus status) {
+        UpdateOrderStatusInput input = new UpdateOrderStatusInput();
+        input.setOrderId(orderId);
+        input.setStatus(status);
+        return updateOrderStatus(input);
     }
 }

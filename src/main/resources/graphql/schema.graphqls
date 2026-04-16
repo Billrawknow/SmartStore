@@ -1,7 +1,16 @@
+# schema.graphqls — Complete e-commerce backend with admin dashboard
+
+# === ROOT TYPES ====================================================================
+
 type Query {
+    # === Auth ====================================================================
+    me: User
+
+    # === Categories ====================================================================
     categories: [Category!]!
     category(id: ID!): Category
 
+    # === Products ====================================================================
     products(
         categoryId: ID
         minPrice: Float
@@ -13,23 +22,39 @@ type Query {
         page: Int
         size: Int
     ): ProductFilterResult!
-
     product(id: ID!): Product
     topRatedProducts: [Product!]!
 
-    me: User
+    # === Orders ====================================================================
     order(id: ID!): Order
     myOrders(page: Int, size: Int): OrderPaginatedResult!
     allOrders(page: Int, size: Int): OrderPaginatedResult!
+
+    # === Admin Dashboard ====================================================================
+    adminDashboard: DashboardStats!
+    revenueAnalytics: RevenueAnalytics!
+    customerAnalytics: CustomerAnalytics!
+    orderAnalytics: OrderAnalytics!
+    stockAlerts: [StockAlert!]!
+    allUsers(page: Int, size: Int): UserPaginatedResult!
+    userById(id: ID!): User
+
+    # === Customer Account ====================================================================
+    myProfile: User
+    myRecentOrders: [Order!]!
+    myOrderCount: Int!
 }
 
 type Mutation {
+    # === Auth ====================================================================
     register(email: String!, password: String!, firstName: String!, lastName: String!): AuthPayload!
     login(email: String!, password: String!): AuthPayload!
 
+    # === Categories ====================================================================
     createCategory(name: String!, description: String): Category!
     deleteCategory(id: ID!): Boolean!
 
+    # === Products ====================================================================
     createProduct(
         name: String!
         description: String!
@@ -38,7 +63,6 @@ type Mutation {
         categoryId: ID!
         available: Boolean
     ): Product!
-
     updateProduct(
         id: ID!
         name: String
@@ -48,19 +72,29 @@ type Mutation {
         categoryId: ID
         available: Boolean
     ): Product!
-
     deleteProduct(id: ID!): Boolean!
 
+    # === Orders ====================================================================
     createOrder(
         items: [OrderItemInput!]!
         shippingAddress: String!
         phoneNumber: String!
     ): Order!
-
     updateOrderStatus(orderId: ID!, status: String!): Order!
-
     initiatePayment(orderId: ID!, phoneNumber: String!, amount: Float!): MpesaPaymentResponse!
+
+    # === Admin User Management ====================================================================
+    updateUserRole(userId: ID!, role: String!): User!
+    toggleUserStatus(userId: ID!): User!
+    deleteUser(userId: ID!): Boolean!
+    resetUserPassword(userId: ID!, newPassword: String!): User!
+
+    # === Customer Account ====================================================================
+    updateMyProfile(firstName: String, lastName: String, email: String): User!
+    changeMyPassword(currentPassword: String!, newPassword: String!): PasswordChangeResponse!
 }
+
+# === CORE TYPES ====================================================================
 
 type User {
     id: ID!
@@ -116,10 +150,14 @@ type OrderItem {
     price: Float!
 }
 
+# === AUTH TYPES ====================================================================
+
 type AuthPayload {
     token: String!
     user: User!
 }
+
+# === PRODUCT TYPES ====================================================================
 
 type ProductFilterResult {
     items: [Product!]!
@@ -127,6 +165,8 @@ type ProductFilterResult {
     totalPages: Int!
     currentPage: Int!
 }
+
+# === ORDER TYPES ====================================================================
 
 type OrderPaginatedResult {
     items: [Order!]!
@@ -144,10 +184,81 @@ type MpesaPaymentResponse {
     message: String
 }
 
+# === ADMIN DASHBOARD TYPES ====================================================================
+
+type DashboardStats {
+    totalCustomers: Int!
+    totalOrders: Int!
+    totalRevenue: Float!
+    pendingOrders: Int!
+    lowStockProducts: Int!
+    recentActivity: RecentActivity!
+}
+
+type RecentActivity {
+    recentOrders: [Order!]!
+    recentCustomers: [User!]!
+    recentProducts: [Product!]!
+}
+
+type RevenueAnalytics {
+    todayRevenue: Float!
+    weekRevenue: Float!
+    monthRevenue: Float!
+    yearRevenue: Float!
+    dailyBreakdown: [DailyRevenue!]!
+}
+
+type DailyRevenue {
+    date: String!
+    revenue: Float!
+    orderCount: Int!
+}
+
+type StockAlert {
+    product: Product!
+    currentStock: Int!
+    alertLevel: String!
+}
+
+type CustomerAnalytics {
+    totalCustomers: Int!
+    activeCustomers: Int!
+    newCustomersThisMonth: Int!
+    averageOrderValue: Float!
+    topCustomer: User
+}
+
+type OrderAnalytics {
+    totalOrders: Int!
+    pendingOrders: Int!
+    completedOrders: Int!
+    cancelledOrders: Int!
+    conversionRate: Float!
+}
+
+type UserPaginatedResult {
+    items: [User!]!
+    totalItems: Int!
+    totalPages: Int!
+    currentPage: Int!
+}
+
+# === CUSTOMER ACCOUNT TYPES ====================================================================
+
+type PasswordChangeResponse {
+    success: Boolean!
+    message: String!
+}
+
+# === INPUT TYPES ====================================================================
+
 input OrderItemInput {
     productId: ID!
     quantity: Int!
 }
+
+# === ENUMS ====================================================================
 
 enum UserRole {
     CUSTOMER
